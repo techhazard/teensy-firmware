@@ -1,4 +1,4 @@
-BIN=teensy
+BIN=teensy-firmware
 OUTDIR=target/thumbv7em-none-eabi/release
 HEX=$(OUTDIR)/$(BIN).hex
 ELF=$(OUTDIR)/$(BIN)
@@ -17,5 +17,8 @@ $(HEX): $(ELF)
 
 .PHONY: flash
 
-flash: $(HEX)
-	teensy_loader_cli -w -mmcu=mk20dx256 $(HEX) -v
+flash: $(HEX) tools/teensy_loader_cli/teensy_loader_cli
+	tools/teensy_loader_cli/teensy_loader_cli -w -mmcu=mk20dx256 $(HEX) -v
+
+tools/teensy_loader_cli/teensy_loader_cli:
+	cd tools/teensy_loader_cli && make

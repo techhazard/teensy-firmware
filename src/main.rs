@@ -1,10 +1,31 @@
+// manual: https://www.pjrc.com/teensy/K20P64M72SF1RM.pdf
+
 #![feature(stdsimd)]
 #![no_std]
 #![no_main]
 
 
+mod port;
+mod sim;
+mod watchdog;
+
 #[no_mangle]
-pub extern fn main() {
+extern fn main() {
+
+    let (wdog, sim, pin) = unsafe {
+        (watchdog::Watchdog::new(),
+        sim::Sim::new(),
+        port::Port::new(port::PortName::C).pin(5))
+    };
+
+    wdog.disable();
+    sim.enable_clock(sim::Clock::PortC);
+
+    let mut gpio = pin.make_gpio();
+
+    gpio.output();
+    gpio.high();
+
     loop {};
 }
 
