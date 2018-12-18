@@ -1,0 +1,7 @@
+[package]
+name = "teensy-firmware"
+version = "0.1.0"
+authors = ["Vince van Oosten <techhazard@codeforyouand.me>"]
+edition = "2018"
+
+[dependencies]
